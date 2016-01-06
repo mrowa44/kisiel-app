@@ -31,11 +31,12 @@ App = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     var text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+    var username = Meteor.user().username || Meteor.user().profile.name
     Tasks.insert({
       text: text,
       createdAt: new Date(),
       owner: Meteor.userId(),
-      username: Meteor.user().username
+      username: username
     });
     ReactDOM.findDOMNode(this.refs.textInput).value = "";
   },
