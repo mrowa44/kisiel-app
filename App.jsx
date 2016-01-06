@@ -11,11 +11,12 @@ App = React.createClass({
       return <Task key={task._id} task={task} />;
     });
   },
+
   handleSubmit(e) {
     e.preventDefault();
-    var text = React.findDOMNode(this.refs.textInput).value.trim();
+    var text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
     Tasks.insert({ text: text, createdAt: new Date() });
-    React.findDOMNode(this.refs.textInput).value = "";
+    ReactDOM.findDOMNode(this.refs.textInput).value = "";
   },
 
   render() {
