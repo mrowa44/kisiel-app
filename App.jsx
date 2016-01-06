@@ -17,8 +17,9 @@ App = React.createClass({
 
     return {
       tasks: Tasks.find(query, { sort: {createdAt: -1}}).fetch(),
-      undoneCount: Tasks.find({checked: {$ne: true}}).count()
-}
+      undoneCount: Tasks.find({checked: {$ne: true}}).count(),
+      currentUser: Meteor.user()
+    }
   },
 
   renderTasks() {
@@ -30,7 +31,12 @@ App = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     var text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-    Tasks.insert({ text: text, createdAt: new Date() });
+    Tasks.insert({
+      text: text,
+      createdAt: new Date(),
+      owner: Meteor.userId(),
+      username: Meteor.user().username
+    });
     ReactDOM.findDOMNode(this.refs.textInput).value = "";
   },
 
@@ -55,9 +61,11 @@ App = React.createClass({
           </label>
           <AccountsUIWrapper />
 
-          <form className="new-task" onSubmit={this.handleSubmit} >
-            <input type="text" ref="textInput" placeholder="Type to add new tasks" />
-          </form>
+          { this.data.currentUser ?
+            <form className="new-task" onSubmit={this.handleSubmit} >
+              <input type="text" ref="textInput" placeholder="Type to add new tasks" />
+            </form> : ''
+          }
         </header>
         <ul>
           {this.renderTasks()}
