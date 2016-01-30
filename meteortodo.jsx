@@ -5,8 +5,16 @@ if (Meteor.isClient) {
     passwordSignupFields: "USERNAME_ONLY"
   });
 
+  Meteor.subscribe("tasks");
+
   Meteor.startup(function () {
     ReactDOM.render(<App />, document.getElementById("render-target"));
+  });
+}
+
+if (Meteor.isServer) {
+  Meteor.publish("tasks", function () {
+    return Tasks.find();
   });
 }
 
