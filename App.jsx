@@ -32,12 +32,7 @@ App = React.createClass({
     e.preventDefault();
     var text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
     var username = Meteor.user().username || Meteor.user().profile.name
-    Tasks.insert({
-      text: text,
-      createdAt: new Date(),
-      owner: Meteor.userId(),
-      username: username
-    });
+    Meteor.call("addTask", text);
     ReactDOM.findDOMNode(this.refs.textInput).value = "";
   },
 
