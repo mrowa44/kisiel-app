@@ -37,7 +37,7 @@ App = React.createClass({
     e.preventDefault();
     var text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
     var username = Meteor.user().username || Meteor.user().profile.name
-    Meteor.call("addTask", text);
+    Meteor.call("addTask", text, username);
     ReactDOM.findDOMNode(this.refs.textInput).value = "";
   },
 
